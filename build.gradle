@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+group 'com.live2d'
+version '4.2.01'
+
+repositories {
+    maven { url "https://lss233.littleservice.cn/repositories/minecraft" }
+	maven { url "https://repo1.maven.org/maven2" }
+    maven { url "https://maven.aliyun.com/repository/public" }
+    maven { url "https://maven.aliyun.com/repository/central" }
+    maven { url "https://www.jitpack.io" }
+    maven { url "https://repo.spongepowered.org/repository/maven-public/" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.javassist:javassist:3.29.2-GA"
+    implementation 'org.zeroturnaround:zt-zip:1.15'
+
+    implementation files('libs/Live2D_Cubism.jar')
+
+}
+
+jar {
+    manifest {
+        attributes 'Can-Redefine-Classes': 'true'
+        attributes 'Can-Retransform-Classes': 'true'
+        attributes 'Premain-Class': 'com.live2d.cubism.CrackCubismEditorAgent'
+    }
+}
+
+shadowJar {
+    relocate 'com.google.common', 'bai.crack'
+    exclude 'Live2D_Cubism.jar'
+    archiveClassifier.set('')
+}
+
+build.dependsOn(shadowJar)
