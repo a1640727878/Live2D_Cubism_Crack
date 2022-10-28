@@ -39,7 +39,6 @@ jar {
 
 shadowJar {
     relocate 'com.google.common', 'bai.crack'
-    exclude 'Live2D_Cubism.jar'
     archiveClassifier.set('')
 }
 
