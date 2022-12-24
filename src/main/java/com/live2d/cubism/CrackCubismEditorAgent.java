@@ -102,7 +102,6 @@ public class CrackCubismEditorAgent {
                             Method_Date.getMethod_Date(
                                     "b", "()Lcom/live2d/c/l;",
                                     "{" +
-                                            "System.out.print(\"YZZZZok\\n\");" +
                                             "this.a = com.live2d.c.l.d;" +
                                             "return this.a;" +
                                             "}"));

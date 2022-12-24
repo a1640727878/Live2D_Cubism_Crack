@@ -2,6 +2,7 @@ package com.live2d.cubism;
 
 import org.zeroturnaround.zip.ZipUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,15 +25,20 @@ public class CrackCubismEditorMain {
     }
 
     public static void clearRSA() throws IOException {
-        Path path = Paths.get("app", "lib", "Live2D_Cubism.jar");
+        File zip = Paths.get("app", "lib", "Live2D_Cubism.jar").toFile();
 
-        log(Files.size(path));
+        List<String> name_list = new ArrayList<>();
 
-        ZipUtil.removeEntry(path.toFile(),"META-INF/_7B1D764.RSA");
-        ZipUtil.removeEntry(path.toFile(),"META-INF/_7B1D764.SF");
+        ZipUtil.iterate(zip, (in, zipEntry) -> {
+            String name = zipEntry.getName();
+            if (name.startsWith("META-INF/") && (name.endsWith(".RSA") || name.endsWith(".SF"))) {
+                name_list.add(name);
+            }
+        });
 
-
-
+        for (String name : name_list) {
+            ZipUtil.removeEntry(zip, name);
+        }
     }
 
 
@@ -50,7 +56,7 @@ public class CrackCubismEditorMain {
 
         for (String line : lines_read) {
             if (line.equals("%JAVA_EXE% ^")) {
-                line = "%JAVA_EXE% -javaagent:Live2D_Cubism_Crack-4.2.01.jar -noverify ^";
+                line = "%JAVA_EXE% -javaagent:Live2D_Cubism_Crack-4.2.02.jar -noverify ^";
             }
             lines_write.add(line);
         }

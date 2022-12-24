@@ -11,7 +11,7 @@ tasks.withType(JavaCompile) {
 }
 
 group 'com.live2d'
-version '4.2.01'
+version '4.2.02'
 
 repositories {
     maven { url "https://lss233.littleservice.cn/repositories/minecraft" }
@@ -39,6 +39,7 @@ jar {
 
 shadowJar {
     relocate 'com.google.common', 'bai.crack'
+	minimize()
     archiveClassifier.set('')
 }
 
